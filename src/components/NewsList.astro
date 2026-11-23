@@ -1,0 +1,25 @@
+---
+import { getPosts, formatDate } from '../lib/wp';
+interface Props { limit?: number }
+const { limit } = Astro.props;
+const posts = (await getPosts()).slice(0, limit ?? undefined);
+---
+<ul class="news">
+  {posts.map((p) => (
+    <li>
+      <a href={`/news/${p.id}/`}>
+        <time datetime={p.date}>{formatDate(p.date)}</time>
+        {p.categories[0] && <span class="tag">{p.categories[0]}</span>}
+        <span class="t">{p.title}</span>
+      </a>
+    </li>
+  ))}
+</ul>
+<style>
+  .news { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--c-line); }
+  .news a { display: grid; grid-template-columns: auto auto 1fr; gap: 0.4em 1.2em; align-items: center; padding: 1.1em 0.2em;
+    border-bottom: 1px solid var(--c-line); text-decoration: none; color: var(--c-ink); }
+  .news a:hover .t { color: var(--c-leaf); }
+  time { font-size: 0.85rem; color: var(--c-ink-2); font-variant-numeric: tabular-nums; }
+  @media (max-width: 600px) { .news a { grid-template-columns: auto 1fr; } .t { grid-column: 1 / -1; } .tag { justify-self: start; } }
+</style>

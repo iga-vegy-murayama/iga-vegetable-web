@@ -1,0 +1,49 @@
+---
+// 「つなぐ」：グループ会社へんこの要約ページ。
+// 将来 henko.jp を統合するときは、このディレクトリ（/henko/）配下に henko.jp のページを移し、
+// henko.jp 全体を 301 転送する想定。統合の話はサイトには書かない。
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import ContactCta from '../../components/ContactCta.astro';
+import { external } from '../../config/site';
+const partners = [
+  { layer: '地域の中', name: 'はらぺこあおむし', kind: '名張の自然食品店' },
+  { layer: '地域の中', name: '伊賀忍者饗膳', kind: '伊賀の忍者体験施設のレストラン' },
+  { layer: '地域から都市へ', name: 'もくもく手づくりファーム', kind: 'レストラン、直売所、ハム・ソーセージと合わせた野菜の定期セット・通販' },
+  { layer: '都市へ', name: '八百富', kind: '名古屋方面の卸。イオンやサポーレなどの有機こだわりコーナー、レストラン' },
+  { layer: '都市へ', name: '名古屋生活クラブ', kind: '生協' },
+  { layer: '都市へ', name: '坂ノ途中', kind: 'ネット販売' },
+  { layer: '都市へ', name: '五ふしの草、かんとりい', kind: '奈良などの自然食品店' },
+];
+---
+<Base title="つなぐ｜有機農産物の卸（へんこ）" description="グループ会社のへんこが、関西・中部の有機農産物を、地域の店や施設、都市の実需者へ届けます。">
+  <PageHeader eyebrow="つなぐ" title="有機農産物の卸（へんこ）" lead="グループ会社の株式会社へんこが、実際の流通での受発注とコーディネートを担います。伊賀ベジがつくる技術と仕組みが、ここで毎日の流通になります。" crumbs={[{ label: 'つなぐ', href: '/henko/' }]}>
+    <p style="margin-top:1.6rem"><a class="btn" href={external.henko.href} target="_blank" rel="noopener">へんこのサイトへ ↗</a></p>
+  </PageHeader>
+
+  <section class="section">
+    <div class="container">
+      <h2>いまの出荷先で見る、2つの層</h2>
+      <p class="lead narrow">地域の中では顔の見える関係で。都市へはフェアな流通で。へんこの出荷先には、その2つの層がすでに形になっています。</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>層</th><th>出荷先</th><th>業態・届き方</th></tr></thead>
+          <tbody>
+            {partners.map((p) => (<tr><td><span class="tag">{p.layer}</span></td><td><strong>{p.name}</strong></td><td>{p.kind}</td></tr>))}
+          </tbody>
+        </table>
+      </div>
+      <p><small>もくもく手づくりファームは伊賀の施設ですが、定期セットや通販で都市にも届くため、2つの層をつなぐ例です。</small></p>
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container">
+      <div class="grid grid-2">
+        <a class="card" href="/henko/buyers/"><h3>仕入れをお考えの方へ</h3><p>自然食品店・生協・通販・飲食店の方へ。センター経由と産地直送の2つの届け方があります。</p><span class="more">詳しく見る →</span></a>
+        <a class="card" href="/henko/growers/"><h3>出荷をお考えの生産者の方へ</h3><p>有機農産物の販路をお探しの生産者・産地の方へ。出荷の条件と流れをご案内します。</p><span class="more">詳しく見る →</span></a>
+      </div>
+    </div>
+  </section>
+  <ContactCta title="仕入れ・出荷のご相談" topics={['trade']} />
+</Base>

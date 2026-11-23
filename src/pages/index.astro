@@ -1,0 +1,140 @@
+---
+import Base from '../layouts/Base.astro';
+import Pillars from '../components/Pillars.astro';
+import NewsList from '../components/NewsList.astro';
+import GroupTable from '../components/GroupTable.astro';
+import ContactCta from '../components/ContactCta.astro';
+import { getCollection } from 'astro:content';
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const works = (await getCollection('works')).sort((a, b) => a.data.order - b.data.order).slice(0, 4);
+---
+<Base>
+  <section class="hero">
+    <div class="container hero-inner">
+      <p class="eyebrow">IGA VEGETABLE FARM</p>
+      <h1>知と技を、<br />社会に実装していく。</h1>
+      <p class="hero-lead">
+        有機農業の技術指導と産地づくりの支援、農産物流通のシステム開発。<br class="pc" />
+        自ら生産し、卸し、仕組みをつくって回してきた現場の知見で、産地と食卓をつなぎます。
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="/consulting/">産地づくりのご相談</a>
+        <a class="btn btn--ghost" href="/system/">システムについて</a>
+      </div>
+    </div>
+    <svg class="hero-wheel" viewBox="0 0 200 200" aria-hidden="true">
+      <circle cx="100" cy="100" r="92" fill="none" stroke="currentColor" stroke-width="1.5" />
+      <circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" stroke-width="1" />
+      {Array.from({ length: 16 }, (_, i) => (
+        <g transform={`rotate(${i * 22.5} 100 100)`}>
+          <line x1="100" y1="100" x2="100" y2="8" stroke="currentColor" stroke-width="1" />
+          <rect x="100" y="8" width="18" height="14" fill="currentColor" opacity=".5" />
+        </g>
+      ))}
+    </svg>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">OUR MESSAGE</span>
+      <h2>地域で回せるものは地域で。<br />都市へは、フェアに。</h2>
+      <div class="grid grid-2 layers">
+        <div class="card">
+          <span class="tag">地域の中</span>
+          <h3>顔の見える関係で、食を回す</h3>
+          <p>地元でとれたものを、地元の店や食堂、学校や施設、家庭の食卓へ。つくる人と食べる人がなかまとしてつながる流通は、物流にかかるエネルギーの面からも理にかなっています。</p>
+        </div>
+        <div class="card">
+          <span class="tag">都市へ</span>
+          <h3>産地が不利にならない流通で届ける</h3>
+          <p>大多数の人が暮らす都市を、地域自立だけでまかなうことはできません。市場や卸の方々と組み、産地どうしで荷をまとめ、フェアな条件で届けます。</p>
+        </div>
+      </div>
+      <p class="narrow note">
+        足りないのは想いではなく、少量ずつ作る多くの生産者を束ね、量と品質と時期をそろえ、毎日の受発注と配送を回す技術と仕組みです。
+        伊賀ベジタブルファームとへんこは、この「間」を仕事にしています。
+        <a href="/about/">私たちについて →</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container">
+      <span class="eyebrow">WHAT WE DO</span>
+      <h2>伝える・つくる・つなぐ</h2>
+      <Pillars />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">PROJECTS</span>
+      <h2>人・土・エネルギーも、地域で回す</h2>
+      <p class="lead narrow">「地域で回す」を、流通だけでなく人・土・エネルギーへ。進めている取り組みと、構想中のものを分けてご紹介します。</p>
+      <div class="grid grid-3">
+        {projects.slice(0, 6).map((p) => (
+          <a class="card" href={`/projects/${p.id}/`}>
+            <span><span class={`tag ${p.data.status === '構想' ? 'tag--plan' : ''}`}>{p.data.theme}・{p.data.status}</span></span>
+            <h3>{p.data.title}</h3>
+            <p>{p.data.summary}</p>
+          </a>
+        ))}
+      </div>
+      <p class="more-link"><a href="/projects/">取り組みの一覧へ →</a></p>
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container">
+      <span class="eyebrow">WORKS</span>
+      <h2>実績・事例</h2>
+      <div class="grid grid-2">
+        {works.map((w) => (
+          <a class="card" href={`/works/${w.id}/`}>
+            <span><span class="tag">{w.data.category}</span></span>
+            <h3>{w.data.title}</h3>
+            <p><small>{w.data.client}</small><br />{w.data.summary}</p>
+          </a>
+        ))}
+      </div>
+      <p class="more-link"><a href="/works/">実績の一覧へ →</a></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-2 two">
+        <div>
+          <span class="eyebrow">NEWS</span>
+          <h2>お知らせ</h2>
+          <NewsList limit={4} />
+          <p class="more-link"><a href="/news/">お知らせの一覧へ →</a></p>
+        </div>
+        <div>
+          <span class="eyebrow">GROUP</span>
+          <h2>グループの役割</h2>
+          <GroupTable />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <ContactCta />
+</Base>
+<style>
+  .hero { position: relative; overflow: hidden; padding: clamp(64px, 12vw, 150px) 0 clamp(56px, 9vw, 120px);
+    background: radial-gradient(ellipse at 80% 20%, #f3ecd9 0%, transparent 60%), var(--c-paper); border-bottom: 1px solid var(--c-line); }
+  .hero-inner { position: relative; z-index: 1; }
+  .hero h1 { font-size: clamp(2.1rem, 6.2vw, 3.8rem); line-height: 1.35; margin-bottom: 0.5em; }
+  .hero-lead { max-width: 40em; color: var(--c-ink-2); font-size: clamp(1rem, 1.6vw, 1.1rem); }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 2rem; }
+  .hero-wheel { position: absolute; right: -6%; top: 50%; transform: translateY(-50%); width: min(58vw, 560px); color: var(--c-leaf); opacity: .12;
+    animation: spin 120s linear infinite; }
+  @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .hero-wheel { animation: none; } }
+  @media (max-width: 700px) { .pc { display: none; } .hero-wheel { right: -30%; width: 90vw; } }
+  .layers { margin: 2rem 0; }
+  .note { color: var(--c-ink-2); }
+  .more-link { margin-top: 1.6rem; text-align: right; font-weight: 700; }
+  .two { gap: clamp(32px, 6vw, 72px); }
+</style>

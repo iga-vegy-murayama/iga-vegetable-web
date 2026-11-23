@@ -1,0 +1,14 @@
+---
+// 仮ロゴ：水車（エントロピーの川に置かれた水車）を図案化したマーク。正式ロゴ確定後に差し替え。
+const { size = 36 } = Astro.props;
+---
+<svg width={size} height={size} viewBox="0 0 48 48" aria-hidden="true" class="logo-mark">
+  <circle cx="24" cy="24" r="21" fill="none" stroke="var(--c-leaf)" stroke-width="2.5" />
+  <circle cx="24" cy="24" r="5" fill="var(--c-beni)" />
+  {[0, 45, 90, 135, 180, 225, 270, 315].map((a) => (
+    <g transform={`rotate(${a} 24 24)`}>
+      <line x1="24" y1="19" x2="24" y2="3" stroke="var(--c-leaf)" stroke-width="2" />
+      <path d="M24 3 h7 v6 h-7z" fill="var(--c-leaf)" />
+    </g>
+  ))}
+</svg>

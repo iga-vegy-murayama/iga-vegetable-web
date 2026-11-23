@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ContactCta from '../components/ContactCta.astro';
+import Todo from '../components/Todo.astro';
+---
+<Base title="採用" description="伊賀ベジタブルファームで、産地づくりと流通の仕組みづくりを一緒に担う人を募集しています。">
+  <PageHeader eyebrow="RECRUIT" title="ともに働く人を募集しています" lead="産地づくりの支援、流通の仕組みづくり、紅花の実証圃場。現場の知見を社会に実装する仕事を、チームで担います。" crumbs={[{ label: '採用', href: '/recruit/' }]} />
+  <section class="section"><div class="container prose">
+    <h2>私たちから</h2>
+    <p><Todo>冒頭メッセージ（2020年の下書き「なかま募集」を2027年の募集向けに書き直す）</Todo></p>
+    <h2>募集する役割</h2>
+    <div class="grid grid-2">
+      <div class="card"><h3>戦略・営業</h3><p>産地づくりの支援とシステムの提案を、自治体・団体・事業者へ。</p></div>
+      <div class="card"><h3>研修生</h3><p>紅花の実証圃場などで、有機栽培の技術を実地で学びます。</p></div>
+    </div>
+    <h2>働き方</h2>
+    <p><Todo>週2〜3日など働き方、勤務地、得られる経験、募集要項</Todo></p>
+  </div></section>
+  <ContactCta title="採用について" topics={['recruit']} />
+</Base>

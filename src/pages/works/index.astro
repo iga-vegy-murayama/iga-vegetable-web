@@ -1,0 +1,18 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import ContactCta from '../../components/ContactCta.astro';
+import { getCollection } from 'astro:content';
+const works = (await getCollection('works')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="実績・事例" description="産地づくりの支援、講師・研修、システム開発、流通の実証。伊賀ベジタブルファームの実績と事例。">
+  <PageHeader eyebrow="WORKS" title="実績・事例" lead="事例ごとに「課題 → したこと → 結果」でご紹介します。" crumbs={[{ label: '実績・事例', href: '/works/' }]} />
+  <section class="section"><div class="container">
+    <div class="grid grid-2">
+      {works.map((w) => (
+        <a class="card" href={`/works/${w.id}/`}><span><span class="tag">{w.data.category}</span></span><h3>{w.data.title}</h3><p><small>{w.data.client}</small><br />{w.data.summary}</p><span class="more">詳しく見る →</span></a>
+      ))}
+    </div>
+  </div></section>
+  <ContactCta />
+</Base>

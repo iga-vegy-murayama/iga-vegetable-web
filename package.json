@@ -1,0 +1,16 @@
+{
+  "name": "iga-vegetable-web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "todo": "grep -rn --include=*.astro --include=*.md --include=*.ts -E 'Todo>|class=\"todo\"|TODO' src | grep -v 'components/Todo.astro' | wc -l"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.6",
+    "astro": "^7.4.13"
+  }
+}

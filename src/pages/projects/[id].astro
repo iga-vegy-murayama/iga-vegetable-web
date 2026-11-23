@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import ContactCta from '../../components/ContactCta.astro';
+import { getCollection, render } from 'astro:content';
+export async function getStaticPaths() {
+  return (await getCollection('projects')).map((p) => ({ params: { id: p.id }, props: { p } }));
+}
+const { p } = Astro.props;
+const { Content } = await render(p);
+---
+<Base title={p.data.title} description={p.data.summary}>
+  <PageHeader eyebrow={`${p.data.theme}・${p.data.status}`} title={p.data.title} lead={p.data.summary} crumbs={[{ label: '取り組み', href: '/projects/' }, { label: p.data.title, href: `/projects/${p.id}/` }]} />
+  <section class="section"><div class="container prose md"><Content />
+    {p.data.links.length > 0 && (<><h2>関連リンク</h2><ul>{p.data.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul></>)}
+    <p style="margin-top:3rem"><a href="/projects/">← 取り組みの一覧へ</a></p>
+  </div></section>
+  <ContactCta />
+</Base>
+<style>
+  .md :global(blockquote) { margin: 1.6em 0; padding: 0.2em 0 0.2em 1.2em; border-left: 3px solid var(--c-beni); font-family: var(--f-serif); font-size: 1.25rem; }
+  .md :global(blockquote p) { margin: 0; }
+</style>

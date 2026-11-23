@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Todo from '../components/Todo.astro';
+import { external } from '../config/site';
+---
+<Base title="読む・聴く" description="有機農業の技術コンテンツと、伊賀ベジの考え方を伝える読み物・番組への入口。">
+  <PageHeader eyebrow="READ & LISTEN" title="読む・聴く" lead="「技術」と「思想」の2つの系統で、これまでの講座・動画・読み物をまとめています。" crumbs={[{ label: '読む・聴く', href: '/read/' }]} />
+  <section class="section"><div class="container">
+    <div class="grid grid-2">
+      <div class="card">
+        <span class="eyebrow">技術</span><h3>有機栽培の技術を学ぶ</h3>
+        <ul>
+          <li><a href={external.youtube.href} target="_blank" rel="noopener">{external.youtube.label} ↗</a></li>
+          <li><a href={external.farmersDb.href} target="_blank" rel="noopener">{external.farmersDb.label} ↗</a></li>
+          <li><Todo>note の技術記事（URL）、テーマ別の講座・動画一覧</Todo></li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="eyebrow">思想</span><h3>考え方を読む・聴く</h3>
+        <ul>
+          <li><Todo>ポッドキャスト『命ぐるぐるぐるぐるチャンネル』（公開後）</Todo></li>
+          <li><Todo>2015年の寄稿「未来のために必要なこと」再掲の可否</Todo></li>
+        </ul>
+      </div>
+    </div>
+  </div></section>
+</Base>

@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ContactCta from '../components/ContactCta.astro';
+import Todo from '../components/Todo.astro';
+const features = [
+  { title: '作付・生産計画', text: '産地ごとの作付と出荷見込みをまとめ、年間の生産計画として共有できます。' },
+  { title: '受発注', text: '実需者からの注文と産地への発注を一つの流れで。子育て中の方でも扱えるよう、操作を絞り込んでいます。' },
+  { title: '物流情報', text: '集荷・仕分け・配送の情報をつなぎ、共同物流を回すための情報をそろえます。' },
+];
+---
+<Base title="つくる｜農産物流通のシステム" description="作付・受発注・物流情報を扱う農産物卸管理システム。卸の現場で毎日使ってきた仕組みを、産地の卸・出荷組織に提供します。">
+  <PageHeader eyebrow="つくる" title="農産物流通のシステム" lead="卸の現場で毎日使ってきた仕組みを、産地の卸・出荷組織、産直を取りまとめる事業者の方へ。" crumbs={[{ label: 'つくる', href: '/system/' }]} />
+
+  <section class="section">
+    <div class="container">
+      <h2>農産物卸管理システム</h2>
+      <p class="lead narrow">グループ会社へんこの卸の業務で、実際に運用してきたシステムです。現場の条件をロジックに落とし、少量多品目・多産地の流通を回します。</p>
+      <div class="grid grid-3">
+        {features.map((f) => (<div class="card"><h3>{f.title}</h3><p>{f.text}</p></div>))}
+      </div>
+      <p style="margin-top:1.6rem"><Todo>画面例の画像、対応環境の書き方</Todo></p>
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container prose">
+      <h2>導入の流れと料金</h2>
+      <p>導入費と月額の利用料でご提供します。金額は、資料請求・デモのご依頼をいただいた方に、業務の規模に合わせてご案内します。</p>
+      <h2>受託開発</h2>
+      <p>地域の協議会や事業者の業務に合わせたデータベース・業務アプリの開発もお受けしています。</p>
+      <p><a href="/works/iga-dx/">伊賀有機農業推進協議会でのシステム開発（伊賀DX）→</a></p>
+    </div>
+  </section>
+  <ContactCta title="資料請求・デモのご依頼" topics={['system']} />
+</Base>

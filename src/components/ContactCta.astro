@@ -1,0 +1,23 @@
+---
+import { contactTopics } from '../config/site';
+interface Props { title?: string; topics?: string[] }
+const { title = 'ご相談・お問い合わせ', topics } = Astro.props;
+const list = topics ? contactTopics.filter((t) => topics.includes(t.id)) : contactTopics;
+---
+<section class="section section--brand cta">
+  <div class="container">
+    <span class="eyebrow" style="color: var(--c-gold)">CONTACT</span>
+    <h2>{title}</h2>
+    <p>用件を選んでいただくと、担当者に直接届きます。</p>
+    <ul class="cta-list">
+      {list.map((t) => (<li><a href={`/contact/?type=${t.id}`}>{t.label}<span aria-hidden="true">→</span></a></li>))}
+    </ul>
+  </div>
+</section>
+<style>
+  .cta-list { list-style: none; padding: 0; margin: 1.6rem 0 0; display: grid; gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+  .cta-list a { display: flex; justify-content: space-between; gap: 1em; padding: 1em 1.2em; border: 1px solid rgba(255,255,255,.35);
+    border-radius: var(--radius); text-decoration: none; transition: background .2s; }
+  .cta-list a:hover { background: rgba(255,255,255,.1); color: #fff; }
+</style>

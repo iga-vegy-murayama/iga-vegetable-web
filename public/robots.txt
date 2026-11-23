@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://iga-vegetable.jp/sitemap-index.xml

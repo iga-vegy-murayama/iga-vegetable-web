@@ -1,0 +1,58 @@
+---
+import Logo from './Logo.astro';
+import { site, nav, group, external } from '../config/site';
+const year = new Date().getFullYear();
+const links = [external.note, external.farmersDb, external.youtube];
+---
+<footer class="site-footer">
+  <div class="container cols">
+    <div class="about">
+      <a href="/" class="brand"><Logo size={40} /><span>{site.name}</span></a>
+      <p class="philo">理念「{site.philosophy}」</p>
+      <p class="catch">地域で回せるものは地域で。<br />都市へは、フェアに。</p>
+    </div>
+    <nav aria-label="サイトマップ">
+      <h2>メニュー</h2>
+      <ul>
+        {nav.map((n) => (<li><a href={n.href}>{n.label}</a></li>))}
+        <li><a href="/read/">読む・聴く</a></li>
+        <li><a href="/company/">会社概要</a></li>
+        <li><a href="/contact/">お問い合わせ</a></li>
+      </ul>
+    </nav>
+    <div>
+      <h2>グループ</h2>
+      <ul>
+        {group.subsidiaries.map((s) => (
+          <li><a href={s.url} rel="noopener" target="_blank">{s.name}<span class="ext" aria-label="（別サイト）">↗</span></a><br /><small>{s.role}</small></li>
+        ))}
+      </ul>
+      <h2>学ぶ・見る</h2>
+      <ul>
+        {links.map((l) => (<li><a href={l.href} rel="noopener" target="_blank">{l.label}<span class="ext">↗</span></a></li>))}
+      </ul>
+    </div>
+  </div>
+  <div class="container bottom">
+    <a href="/privacy/">プライバシーポリシー</a>
+    <small>© {year} {site.legalName}</small>
+  </div>
+</footer>
+<style>
+  .site-footer { background: #1f241c; color: #d9d6cc; padding: 64px 0 24px; font-size: 0.9rem; }
+  .site-footer a { color: #eeeadf; text-decoration: none; }
+  .site-footer a:hover { color: var(--c-gold); }
+  .cols { display: grid; gap: 40px; grid-template-columns: 1.3fr 1fr 1.2fr; }
+  @media (max-width: 800px) { .cols { grid-template-columns: 1fr; } }
+  .brand { display: flex; align-items: center; gap: 12px; font-family: var(--f-serif); font-size: 1.15rem; letter-spacing: 0.08em; }
+  .brand :global(.logo-mark) { background: #fbf9f3; border-radius: 50%; padding: 3px; }
+  .philo { margin: 1.2rem 0 0.4rem; color: var(--c-gold); }
+  .catch { font-family: var(--f-serif); font-size: 1.05rem; line-height: 1.8; }
+  h2 { font-family: var(--f-sans); font-size: 0.78rem; letter-spacing: 0.2em; color: #a9a597; margin: 0 0 0.8rem; }
+  ul { list-style: none; padding: 0; margin: 0 0 1.6rem; }
+  li { margin-bottom: 0.5rem; line-height: 1.6; }
+  small { color: #a9a597; }
+  .ext { font-size: 0.8em; margin-left: 0.3em; }
+  .bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 40px; padding-top: 20px;
+    border-top: 1px solid #3a4035; }
+</style>

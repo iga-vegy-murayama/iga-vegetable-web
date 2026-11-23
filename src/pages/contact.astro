@@ -1,0 +1,69 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { contactTopics } from '../config/site';
+const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+---
+<Base title="お問い合わせ" description="産地づくりのご相談、システムの資料請求、仕入れ・出荷、紅花のお取引、採用など、用件を選んでお問い合わせください。">
+  <PageHeader eyebrow="CONTACT" title="お問い合わせ" lead="用件を選んでいただくと、担当者に直接届きます。2営業日以内にお返事します。" crumbs={[{ label: 'お問い合わせ', href: '/contact/' }]} />
+  <section class="section"><div class="container narrow">
+    <form id="contact" method="post" action="/api/contact" class="form">
+      <fieldset>
+        <legend>ご用件 <span class="req">必須</span></legend>
+        {contactTopics.map((t, i) => (
+          <label class="radio"><input type="radio" name="topic" value={t.id} required checked={i === 0} />{t.label}</label>
+        ))}
+      </fieldset>
+      <label>お名前 <span class="req">必須</span><input name="name" required autocomplete="name" /></label>
+      <label>会社・団体名<input name="org" autocomplete="organization" /></label>
+      <label>メールアドレス <span class="req">必須</span><input type="email" name="email" required autocomplete="email" /></label>
+      <label>電話番号<input type="tel" name="tel" autocomplete="tel" /></label>
+      <label>内容 <span class="req">必須</span><textarea name="message" rows="7" required></textarea></label>
+      <input type="text" name="website" class="visually-hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      {siteKey && <div class="cf-turnstile" data-sitekey={siteKey}></div>}
+      <p><small><a href="/privacy/">プライバシーポリシー</a>に同意のうえ送信してください。</small></p>
+      <button class="btn btn--beni" type="submit">送信する</button>
+      <p id="form-status" role="status" aria-live="polite"></p>
+    </form>
+  </div></section>
+  {siteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+  <script>
+    // ?type=system などで用件を選んだ状態にする
+    const type = new URLSearchParams(location.search).get('type');
+    if (type) {
+      const r = document.querySelector<HTMLInputElement>(`input[name="topic"][value="${CSS.escape(type)}"]`);
+      if (r) r.checked = true;
+    }
+    const form = document.getElementById('contact') as HTMLFormElement;
+    const status = document.getElementById('form-status')!;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = form.querySelector('button')!;
+      btn.disabled = true;
+      status.textContent = '送信しています…';
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: new FormData(form) });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || '送信できませんでした');
+        form.reset();
+        status.textContent = 'お問い合わせを受け付けました。担当者からご連絡します。';
+      } catch (err) {
+        status.textContent = `${(err as Error).message}。時間をおいて再度お試しください。`;
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  </script>
+</Base>
+<style>
+  .form { display: grid; gap: 20px; }
+  .form label:not(.radio) { display: grid; gap: 6px; font-weight: 700; font-size: 0.95rem; }
+  .form input:not([type='radio']), .form textarea { font: inherit; font-weight: 400; padding: 0.7em 0.9em; border: 1px solid var(--c-line);
+    border-radius: 8px; background: #fff; width: 100%; }
+  .form input:focus, .form textarea:focus { outline: 2px solid var(--c-leaf); outline-offset: 1px; }
+  fieldset { border: 1px solid var(--c-line); border-radius: var(--radius); padding: 16px 20px; display: grid; gap: 8px; background: #fff; }
+  legend { font-weight: 700; padding: 0 6px; }
+  .radio { display: flex; gap: 0.6em; align-items: center; cursor: pointer; }
+  .req { font-size: 0.7rem; color: #fff; background: var(--c-beni); padding: 0.05em 0.5em; border-radius: 3px; margin-left: 0.4em; vertical-align: middle; }
+  #form-status { font-weight: 700; color: var(--c-leaf-deep); }
+</style>

@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import ContactCta from '../../components/ContactCta.astro';
+import Todo from '../../components/Todo.astro';
+import { external } from '../../config/site';
+---
+<Base title="出荷をお考えの生産者の方へ" description="有機農産物の販路をお探しの生産者・産地の方へ。へんこへの出荷の条件と流れ。">
+  <PageHeader eyebrow="つなぐ" title="出荷をお考えの生産者の方へ" lead="少量ずつでも、なかまと荷をまとめれば都市へ届けられます。" crumbs={[{ label: 'つなぐ', href: '/henko/' }, { label: '出荷をお考えの生産者の方へ', href: '/henko/growers/' }]} />
+  <section class="section">
+    <div class="container prose">
+      <h2>出荷の条件</h2>
+      <p><Todo>出荷の条件（栽培方法・認証・規格など）</Todo></p>
+      <h2>出荷の流れ</h2>
+      <p><Todo>出荷までの流れ。年間生産計画プラットフォームへの登録の案内（URL確定後）</Todo></p>
+      <p>詳しくは <a href={external.henko.href} target="_blank" rel="noopener">へんこのサイト ↗</a> もご覧ください。</p>
+    </div>
+  </section>
+  <ContactCta title="出荷のご相談" topics={['trade']} />
+</Base>

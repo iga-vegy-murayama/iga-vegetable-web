@@ -1,0 +1,25 @@
+---
+interface Props { eyebrow?: string; title: string; lead?: string; crumbs?: { label: string; href: string }[] }
+const { eyebrow, title, lead, crumbs = [] } = Astro.props;
+---
+<header class="page-header">
+  <div class="container">
+    {crumbs.length > 0 && (
+      <nav class="crumbs" aria-label="パンくずリスト">
+        <a href="/">トップ</a>
+        {crumbs.map((c) => (<><span aria-hidden="true">/</span><a href={c.href}>{c.label}</a></>))}
+      </nav>
+    )}
+    {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+    <h1>{title}</h1>
+    {lead && <p class="lead">{lead}</p>}
+    <slot />
+  </div>
+</header>
+<style>
+  .page-header { padding: clamp(40px, 7vw, 88px) 0 clamp(32px, 5vw, 56px); border-bottom: 1px solid var(--c-line);
+    background: linear-gradient(180deg, var(--c-mist), var(--c-paper)); }
+  .lead { max-width: 46em; margin-bottom: 0; }
+  .crumbs { font-size: 0.8rem; color: var(--c-ink-2); margin-bottom: 1.2rem; display: flex; gap: 0.5em; flex-wrap: wrap; }
+  .crumbs a { color: inherit; }
+</style>

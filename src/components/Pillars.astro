@@ -1,0 +1,25 @@
+---
+// 事業の3本柱。トップと「私たちについて」で共用。
+const pillars = [
+  { key: '伝える', en: 'TEACH', title: '産地づくりの支援', href: '/consulting/',
+    text: '有機農業の技術指導、産地形成と流通の支援、講師・研修。自ら生産し、卸してきた現場の知見を、あなたの産地へ。' },
+  { key: 'つくる', en: 'BUILD', title: '農産物流通のシステム', href: '/system/',
+    text: '作付・受発注・物流の情報を扱う農産物卸管理システム。卸の現場で毎日使ってきた仕組みを提供します。' },
+  { key: 'つなぐ', en: 'CONNECT', title: '有機農産物の卸（へんこ）', href: '/henko/',
+    text: 'グループ会社のへんこが、地域の店や施設、都市の実需者へ。顔の見える関係と、フェアな流通で届けます。' },
+];
+---
+<div class="grid grid-3">
+  {pillars.map((p) => (
+    <a class="card pillar" href={p.href}>
+      <span class="key">{p.key}<small>{p.en}</small></span>
+      <h3>{p.title}</h3>
+      <p>{p.text}</p>
+      <span class="more">詳しく見る →</span>
+    </a>
+  ))}
+</div>
+<style>
+  .key { font-family: var(--f-serif); font-size: 2rem; color: var(--c-leaf); line-height: 1.2; display: flex; align-items: baseline; gap: 0.6em; }
+  .key small { font-family: var(--f-sans); font-size: 0.7rem; letter-spacing: 0.2em; color: var(--c-beni); }
+</style>

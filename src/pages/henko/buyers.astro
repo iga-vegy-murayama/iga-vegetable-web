@@ -1,0 +1,25 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import ContactCta from '../../components/ContactCta.astro';
+import Todo from '../../components/Todo.astro';
+import { external } from '../../config/site';
+---
+<Base title="仕入れをお考えの方へ" description="関西・中部の有機農産物を、センター経由と産地直送の2つの形でお届けします。">
+  <PageHeader eyebrow="つなぐ" title="仕入れをお考えの方へ" lead="関西・中部の有機農産物を、安定してお届けします。" crumbs={[{ label: 'つなぐ', href: '/henko/' }, { label: '仕入れをお考えの方へ', href: '/henko/buyers/' }]} />
+  <section class="section">
+    <div class="container prose">
+      <h2>2つの届け方</h2>
+      <div class="grid grid-2">
+        <div class="card"><h3>センター経由</h3><p>へんこのセンターで複数の産地の品目をまとめ、一度にお届けします。</p></div>
+        <div class="card"><h3>産地直送</h3><p>システムで受発注をつなぎ、産地から直接お届けします。</p></div>
+      </div>
+      <h2>取扱産地・品目</h2>
+      <p><Todo>取扱産地・品目（将来は販売管理システムから書き出した品目カレンダーを表示）</Todo></p>
+      <h2>取引開始の流れ</h2>
+      <p><Todo>取引開始までの流れ</Todo></p>
+      <p>詳しくは <a href={external.henko.href} target="_blank" rel="noopener">へんこのサイト ↗</a> もご覧ください。</p>
+    </div>
+  </section>
+  <ContactCta title="仕入れのご相談" topics={['trade']} />
+</Base>

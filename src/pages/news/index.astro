@@ -1,0 +1,9 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import NewsList from '../../components/NewsList.astro';
+---
+<Base title="お知らせ" description="伊賀ベジタブルファームのお知らせ。講師・講演、紅花の出荷、新しい取り組みなど。">
+  <PageHeader eyebrow="NEWS" title="お知らせ" crumbs={[{ label: 'お知らせ', href: '/news/' }]} />
+  <section class="section"><div class="container narrow"><NewsList /></div></section>
+</Base>

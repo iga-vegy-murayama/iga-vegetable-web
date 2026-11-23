@@ -1,0 +1,14 @@
+---
+import { group } from '../config/site';
+---
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>会社</th><th>担うこと</th></tr></thead>
+    <tbody>
+      <tr><td><strong>{group.parent.name}</strong><br /><span class="tag">本体</span></td><td>{group.parent.role}</td></tr>
+      {group.subsidiaries.map((s) => (
+        <tr><td><a href={s.url} target="_blank" rel="noopener"><strong>{s.name}</strong> ↗</a><br /><span class="tag">グループ会社</span></td><td>{s.role}</td></tr>
+      ))}
+    </tbody>
+  </table>
+</div>

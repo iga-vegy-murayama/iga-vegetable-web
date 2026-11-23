@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import ContactCta from '../../components/ContactCta.astro';
+import { getCollection } from 'astro:content';
+const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const groups = [
+  { title: '流通と技術', themes: ['流通', '技術'] },
+  { title: '人・土・エネルギーの循環', themes: ['人', '土', 'エネルギー'] },
+];
+---
+<Base title="取り組み" description="国の事業、紅花プロジェクト、外国人材の産地間連携、ネパール、生ごみ堆肥化、地域のエネルギー。伊賀ベジが目指す姿を、取り組みの実例で。">
+  <PageHeader eyebrow="PROJECTS" title="取り組み" lead="「地域で回す」を、流通だけでなく人・土・エネルギーへ。実施中のものと構想中のものを分けてご紹介します。" crumbs={[{ label: '取り組み', href: '/projects/' }]} />
+  {groups.map((g, i) => (
+    <section class={`section ${i % 2 ? 'section--mist' : ''}`}>
+      <div class="container">
+        <h2>{g.title}</h2>
+        <div class="grid grid-3">
+          {all.filter((p) => g.themes.includes(p.data.theme)).map((p) => (
+            <a class="card" href={`/projects/${p.id}/`}>
+              <span><span class={`tag ${p.data.status === '構想' ? 'tag--plan' : ''}`}>{p.data.theme}・{p.data.status}</span></span>
+              <h3>{p.data.title}</h3><p>{p.data.summary}</p><span class="more">詳しく見る →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+  <ContactCta />
+</Base>

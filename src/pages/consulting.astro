@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ContactCta from '../components/ContactCta.astro';
+import { external } from '../config/site';
+import { getCollection } from 'astro:content';
+const works = (await getCollection('works')).filter((w) => ['産地づくり', '講師・研修'].includes(w.data.category));
+const menus = [
+  { title: '有機農業の技術指導', text: '土づくり・堆肥の使いこなし・作付計画など、植物生理に基づいた栽培技術を、現場の条件に合わせてお伝えします。' },
+  { title: '産地形成・流通の支援', text: '生産者の束ね方、出荷の仕組み、市場や卸との連携まで。外国人材の産地間連携や、海外での産地づくりも支援します。' },
+  { title: '講師・研修', text: '農業大学校や自治体の講習会で講師を務めています。新規就農者向けの研修や、実践力を養う場づくりにも対応します。' },
+];
+const steps = ['ご相談', '現地診断', '計画づくり', '伴走'];
+---
+<Base title="伝える｜産地づくりの支援" description="有機農業の技術指導、産地形成・流通の支援、講師・研修。自ら生産し、卸してきた現場の知見で、産地づくりを支えます。">
+  <PageHeader eyebrow="伝える" title="産地づくりの支援" lead="自ら生産し、卸し、仕組みをつくって回してきた現場の知見を、あなたの産地へ。自治体・JA・有機農業の推進団体・農業法人の方からのご相談をお受けしています。" crumbs={[{ label: '伝える', href: '/consulting/' }]} />
+
+  <section class="section">
+    <div class="container">
+      <h2>支援メニュー</h2>
+      <div class="grid grid-3">
+        {menus.map((m) => (<div class="card"><h3>{m.title}</h3><p>{m.text}</p></div>))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container">
+      <h2>進め方</h2>
+      <p class="lead narrow">現場の水の流れを観察してから、手を打つ。まず産地の条件を一緒に確かめるところから始めます。</p>
+      <ol class="steps">
+        {steps.map((s, i) => (<li><span class="n">{String(i + 1).padStart(2, '0')}</span>{s}</li>))}
+      </ol>
+      <p>支援はチームで対応します。</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>関連する実績</h2>
+      <div class="grid grid-2">
+        {works.map((w) => (<a class="card" href={`/works/${w.id}/`}><span><span class="tag">{w.data.category}</span></span><h3>{w.data.title}</h3><p><small>{w.data.client}</small></p></a>))}
+      </div>
+      <h2 style="margin-top:3rem">技術コンテンツ</h2>
+      <p>これまでの講座や指導動画は、外部のサイトで公開しています。</p>
+      <ul>
+        <li><a href={external.youtube.href} target="_blank" rel="noopener">{external.youtube.label} ↗</a></li>
+        <li><a href={external.farmersDb.href} target="_blank" rel="noopener">{external.farmersDb.label} ↗</a></li>
+        <li><a href="/read/">読む・聴く（一覧）</a></li>
+      </ul>
+    </div>
+  </section>
+  <ContactCta title="産地づくりのご相談" topics={['consulting']} />
+</Base>
+<style>
+  .steps { list-style: none; padding: 0; margin: 2rem 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
+  .steps li { background: #fff; border: 1px solid var(--c-line); border-radius: var(--radius); padding: 20px; font-family: var(--f-serif); font-size: 1.15rem; }
+  .n { display: block; font-family: var(--f-sans); font-size: 0.8rem; color: var(--c-beni); letter-spacing: 0.15em; }
+</style>

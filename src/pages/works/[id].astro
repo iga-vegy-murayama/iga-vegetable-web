@@ -1,0 +1,18 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import ContactCta from '../../components/ContactCta.astro';
+import { getCollection, render } from 'astro:content';
+export async function getStaticPaths() {
+  return (await getCollection('works')).map((w) => ({ params: { id: w.id }, props: { w } }));
+}
+const { w } = Astro.props;
+const { Content } = await render(w);
+---
+<Base title={w.data.title} description={w.data.summary}>
+  <PageHeader eyebrow={w.data.category} title={w.data.title} lead={w.data.summary} crumbs={[{ label: '実績・事例', href: '/works/' }, { label: w.data.title, href: `/works/${w.id}/` }]}>
+    <p style="margin:1rem 0 0"><span class="tag">{w.data.client}</span></p>
+  </PageHeader>
+  <section class="section"><div class="container prose"><Content /><p style="margin-top:3rem"><a href="/works/">← 実績の一覧へ</a></p></div></section>
+  <ContactCta />
+</Base>

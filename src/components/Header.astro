@@ -1,0 +1,64 @@
+---
+import Logo from './Logo.astro';
+import { site, nav } from '../config/site';
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+<header class="site-header">
+  <div class="container bar">
+    <a href="/" class="brand" aria-label={`${site.name} トップへ`}>
+      <Logo />
+      <span class="brand-name">{site.name}</span>
+    </a>
+    <nav class="gnav" aria-label="メインメニュー">
+      <ul>
+        {nav.map((n) => (
+          <li><a href={n.href} aria-current={isCurrent(n.href) ? 'page' : undefined}>{n.label}{n.sub && <small>{n.sub}</small>}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <a href="/contact/" class="btn btn--beni header-cta">お問い合わせ</a>
+    <details class="mnav">
+      <summary aria-label="メニューを開く"><span></span><span></span><span></span></summary>
+      <div class="mnav-panel">
+        <ul>
+          {nav.map((n) => (<li><a href={n.href}>{n.label}{n.sub && <small>{n.sub}</small>}</a></li>))}
+          <li><a href="/company/">会社概要</a></li>
+          <li><a href="/contact/" class="btn btn--beni">お問い合わせ</a></li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</header>
+<style>
+  .site-header { position: sticky; top: 0; z-index: 50; background: rgba(251,249,243,.94); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--c-line); }
+  .bar { display: flex; align-items: center; gap: 20px; min-height: 68px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--c-ink); flex-shrink: 0; }
+  .brand-name { font-family: var(--f-serif); font-weight: 600; font-size: 1.05rem; letter-spacing: 0.08em; }
+  .gnav { margin-left: auto; }
+  .gnav ul { display: flex; list-style: none; margin: 0; padding: 0; gap: 2px; }
+  .gnav a { white-space: nowrap; display: flex; flex-direction: column; align-items: center; padding: 6px 9px; text-decoration: none;
+    color: var(--c-ink); font-size: 0.9rem; font-weight: 500; line-height: 1.4; border-radius: 6px; }
+  .gnav small { font-size: 0.64rem; color: var(--c-ink-2); font-weight: 400; }
+  .gnav a:hover, .gnav a[aria-current='page'] { color: var(--c-leaf); background: var(--c-mist); }
+  .header-cta { padding: 0.55em 1.2em; font-size: 0.88rem; white-space: nowrap; }
+  .mnav { display: none; margin-left: auto; }
+  .mnav summary { list-style: none; cursor: pointer; width: 44px; height: 44px; display: grid; place-content: center; gap: 6px; }
+  .mnav summary::-webkit-details-marker { display: none; }
+  .mnav summary span { display: block; width: 24px; height: 2px; background: var(--c-ink); transition: transform .2s, opacity .2s; }
+  .mnav[open] summary span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .mnav[open] summary span:nth-child(2) { opacity: 0; }
+  .mnav[open] summary span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+  .mnav-panel { position: absolute; left: 0; right: 0; top: 100%; background: var(--c-paper); border-bottom: 1px solid var(--c-line);
+    max-height: calc(100vh - 68px); overflow-y: auto; }
+  .mnav-panel ul { list-style: none; margin: 0; padding: 8px var(--gutter) 24px; }
+  .mnav-panel li a:not(.btn) { display: flex; gap: 0.8em; align-items: baseline; padding: 14px 4px; border-bottom: 1px solid var(--c-line);
+    color: var(--c-ink); text-decoration: none; }
+  .mnav-panel small { color: var(--c-ink-2); font-size: 0.75rem; }
+  .mnav-panel .btn { margin-top: 20px; width: 100%; justify-content: center; }
+  @media (max-width: 1240px) {
+    .gnav, .header-cta { display: none; }
+    .mnav { display: block; }
+  }
+</style>

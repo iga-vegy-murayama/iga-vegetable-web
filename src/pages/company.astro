@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Todo from '../components/Todo.astro';
+import { group } from '../config/site';
+const henko = group.subsidiaries[0];
+---
+<Base title="会社概要" description="伊賀ベジタブルファーム株式会社と、グループ会社 株式会社へんこの会社概要。">
+  <PageHeader eyebrow="COMPANY" title="会社概要" crumbs={[{ label: '会社概要', href: '/company/' }]} />
+  <section class="section"><div class="container prose">
+    <h2>{group.parent.name}</h2>
+    <div class="table-wrap"><table><tbody>
+      <tr><th>理念</th><td>自立と共生</td></tr>
+      <tr><th>事業内容</th><td>有機農業の技術指導・産地づくりの支援、農産物流通のシステム開発、技術コンテンツ、紅花の生産（実証圃場）</td></tr>
+      <tr><th>所在地</th><td><Todo>所在地</Todo></td></tr>
+      <tr><th>代表者</th><td><Todo>代表者名</Todo></td></tr>
+      <tr><th>設立</th><td><Todo>設立年月</Todo></td></tr>
+      <tr><th>連絡先</th><td><a href="/contact/">お問い合わせフォーム</a></td></tr>
+    </tbody></table></div>
+
+    <h2>{henko.name}（グループ会社）</h2>
+    <div class="table-wrap"><table><tbody>
+      <tr><th>事業内容</th><td>関西・中部の有機農産物の卸売（自然食品店・生協・通販・飲食店など）</td></tr>
+      <tr><th>所在地</th><td><Todo>所在地</Todo></td></tr>
+      <tr><th>代表者</th><td><Todo>代表者名</Todo></td></tr>
+      <tr><th>Webサイト</th><td><a href={henko.url} target="_blank" rel="noopener">{henko.url} ↗</a></td></tr>
+    </tbody></table></div>
+  </div></section>
+</Base>
