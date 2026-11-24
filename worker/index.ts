@@ -12,6 +12,13 @@ export default {
       if (request.method !== 'POST') return new Response('Method Not Allowed', { status: 405 });
       return handleContact(request, env);
     }
-    return env.ASSETS.fetch(request);
+    const res = await env.ASSETS.fetch(request);
+    // 確認用URL（*.workers.dev）は検索エンジンに載せない
+    if (url.hostname.endsWith('.workers.dev')) {
+      const r = new Response(res.body, res);
+      r.headers.set('X-Robots-Tag', 'noindex, nofollow');
+      return r;
+    }
+    return res;
   },
 };
