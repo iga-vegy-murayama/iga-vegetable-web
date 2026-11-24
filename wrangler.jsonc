@@ -1,0 +1,14 @@
+{
+  // Cloudflare Workers（静的アセット＋問い合わせ処理）の設定
+  "name": "iga-vegetable-web",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-11-01",
+  "build": { "command": "npm run build" },
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  },
+  "observability": { "enabled": true }
+}

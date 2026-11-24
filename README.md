@@ -1,6 +1,6 @@
 # 伊賀ベジタブルファーム 公式サイト
 
-Astro の静的サイト。Cloudflare Pages で公開し、お知らせはヘッドレス WordPress（cms.iga-vegetable.jp、Cloudflare Access で保護）から**ビルド時に**読み込みます。
+Astro の静的サイト。Cloudflare Workers（静的アセット）で公開し、お知らせはヘッドレス WordPress（cms.iga-vegetable.jp、Cloudflare Access で保護）から**ビルド時に**読み込みます。
 
 ## 開発
 
@@ -24,26 +24,19 @@ npm run todo     # 公開前に埋める「要確認」の残り件数
 | `src/content/works/` | 実績・事例（Markdown。課題 → したこと → 結果。社名は許諾後に） |
 | `src/lib/wp.ts` | WordPress からお知らせを読む処理 |
 | `src/pages/henko/` | 「つなぐ」（へんこ）。将来 henko.jp を統合するときの受け皿 |
-| `functions/api/contact.ts` | 問い合わせフォームの送信（Turnstile＋Brevo） |
+| `worker/` | Workers の入口。`/api/contact`（問い合わせ送信：Turnstile＋Brevo）だけ処理し、ほかは `dist/` を返す |
+| `wrangler.jsonc` | Workers の設定（ビルドコマンドもここに記載） |
 | `public/_redirects` | 旧URLからの 301 転送 |
 
-## Cloudflare Pages との接続（ダッシュボードで1回だけ）
+## Cloudflare との接続
 
-1. Cloudflare ダッシュボード → **Workers & Pages** → **作成** → **Pages** → **Git に接続**
-2. GitHub を連携し、リポジトリ `iga-vegetable-web` を選ぶ
-3. ビルド設定
-   - フレームワーク プリセット: **Astro**
-   - ビルドコマンド: `npm run build`
-   - 出力ディレクトリ: `dist`
-   - 環境変数: `NODE_VERSION` = `22`
-4. **保存してデプロイ** → `https://iga-vegetable-web.pages.dev` で表示を確認
-5. 以降、`main` に push すると自動で本番デプロイ、他のブランチはプレビューURLが発行される
+Cloudflare の **Workers & Pages** に Worker として GitHub と接続済み。`main` に push すると自動でビルド・デプロイされる（ビルドは `wrangler.jsonc` の `build.command`）。確認は workers.dev のURLで行う。
 
 ### 後で設定するもの
 
-- **カスタムドメイン**（公開時）: Pages プロジェクト → カスタムドメイン → `iga-vegetable.jp` と `www.iga-vegetable.jp`。DNS は同じ Cloudflare なので自動で設定される。`ai` / `apps0` / `apps1` / `apps` のレコードは触らない。
-- **WordPress 連携**: 環境変数に `WP_API_URL`、`CF_ACCESS_CLIENT_ID`、`CF_ACCESS_CLIENT_SECRET`（Access のサービストークン）を登録。Pages プロジェクト → 設定 → **デプロイフック** を作り、その URL を WordPress の公開時フック（例: プラグイン「WP Webhooks」等）から呼ぶと、投稿の公開で自動ビルドされる。
-- **問い合わせフォーム**: Turnstile でサイトを作成し、`PUBLIC_TURNSTILE_SITE_KEY`（ビルド用）と `TURNSTILE_SECRET`、`BREVO_API_KEY`、`CONTACT_FROM`、`CONTACT_TO`（用件ごとに `CONTACT_TO_SYSTEM` など）を登録。
+- **カスタムドメイン**（公開時）: Worker → 設定 → ドメインとルート → カスタムドメインに `iga-vegetable.jp` と `www.iga-vegetable.jp`。DNS は同じ Cloudflare。`ai` / `apps0` / `apps1` / `apps` のレコードは触らない。
+- **WordPress 連携**: Worker → 設定 → ビルド → 変数に `WP_API_URL`、`CF_ACCESS_CLIENT_ID`、`CF_ACCESS_CLIENT_SECRET`（Access のサービストークン）。投稿の公開で自動ビルドするには、ビルドのデプロイフックを WordPress の公開時フックから呼ぶ。
+- **問い合わせフォーム**: ビルド変数に `PUBLIC_TURNSTILE_SITE_KEY`。Worker の変数とシークレットに `TURNSTILE_SECRET`、`BREVO_API_KEY`、`CONTACT_FROM`、`CONTACT_TO`（用件ごとに `CONTACT_TO_SYSTEM` など）。
 
 ## 掲載しないもの
 

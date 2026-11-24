@@ -1,12 +1,12 @@
-// Cloudflare Pages Function: お問い合わせフォームの送信先。
-// 必要な環境変数（Cloudflare Pages の設定 > 環境変数 で登録）:
+// お問い合わせフォームの送信処理（worker/index.ts から呼ばれる）。
+// 必要な変数（Cloudflare の Worker > 設定 > 変数とシークレット で登録）:
 //   TURNSTILE_SECRET   Cloudflare Turnstile のシークレットキー
 //   BREVO_API_KEY      Brevo（現行サイトのフォームでも使用中）のAPIキー
 //   CONTACT_FROM       差出人アドレス（Brevoで認証済みのドメイン）
 //   CONTACT_TO         既定の宛先
 //   CONTACT_TO_SYSTEM など  用件ごとの宛先（任意。CONTACT_TO_<用件IDの大文字>）
 
-interface Env {
+export interface Env {
   TURNSTILE_SECRET?: string;
   BREVO_API_KEY: string;
   CONTACT_FROM: string;
@@ -26,7 +26,7 @@ const TOPICS: Record<string, string> = {
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json; charset=utf-8' } });
 
-export const onRequestPost = async ({ request, env }: { request: Request; env: Env }) => {
+export async function handleContact(request: Request, env: Env): Promise<Response> {
   const f = await request.formData();
   const get = (k: string) => String(f.get(k) ?? '').trim();
 
@@ -76,4 +76,4 @@ export const onRequestPost = async ({ request, env }: { request: Request; env: E
   });
   if (!res.ok) return json({ error: '送信できませんでした' }, 502);
   return json({ ok: true });
-};
+}
